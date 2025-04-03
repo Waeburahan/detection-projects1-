@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบวิเคราะห์การเกษตร</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>ระบบวิเคราะห์การเกษตรอัจฉริยะ</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">หน้าหลัก</a></li>
+                    <li><a href="#how-to-use">วิธีใช้งาน</a></li>
+                    <li><a href="#contact">ติดต่อเรา</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>วิเคราะห์ภาพเพื่อการเกษตรแม่นยำ</h1>
+            <p>อัปโหลดภาพพืชผลทางการเกษตรของคุณเพื่อวิเคราะห์และรับผลลัพธ์การตรวจจับอย่างรวดเร็ว ช่วยให้คุณวางแผนและตัดสินใจได้อย่างมีประสิทธิภาพ</p>
+        </div>
+    </section>
+    
+    <div class="container">
+        <section class="upload-section">
+            <h2>อัปโหลดภาพเพื่อวิเคราะห์</h2>
+            <form class="upload-form" id="uploadForm">
+                <div class="file-input-wrapper">
+                    <input type="file" name="file" id="file" class="file-input" accept="image/*">
+                    <label for="file" class="file-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>เลือกไฟล์ภาพหรือลากมาวางที่นี่</span>
+                        <div id="fileName" class="file-name"></div>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">วิเคราะห์ภาพ</button>
+            </form>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+            </div>
+        </section>
+        
+        <section class="results-section" id="resultsSection">
+            <h2>ผลการวิเคราะห์</h2>
+            <div class="results-grid">
+                <div>
+                    <img id="resultImage" class="result-image" src="" alt="ผลการวิเคราะห์">
+                </div>
+                <div class="detection-info">
+                    <h3>รายงานการตรวจจับ</h3>
+                    <div id="detectionResults"></div>
+                    <div class="detection-chart" id="detectionChart"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="how-to-use" id="how-to-use">
+            <h2>วิธีการใช้งาน</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>ถ่ายภาพ</h3>
+                    <p>ถ่ายภาพพืชผลหรือแปลงเกษตรของคุณด้วยกล้องถ่ายรูปหรือสมาร์ทโฟน</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>อัปโหลด</h3>
+                    <p>อัปโหลดไฟล์ภาพไปยังระบบโดยคลิกที่ปุ่ม "เลือกไฟล์ภาพ"</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>วิเคราะห์</h3>
+                    <p>รอระบบวิเคราะห์ภาพด้วย AI และแสดงผลลัพธ์การตรวจจับ</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>ดูผลลัพธ์</h3>
+                    <p>ดูรายงานการวิเคราะห์พร้อมกราฟแสดงผลเพื่อใช้ในการตัดสินใจ</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer id="contact">
+        <div class="container">
+            <p>ระบบวิเคราะห์การเกษตรอัจฉริยะ &copy; 2025</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-line"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p>ติดต่อเรา: info@agrianalysis.com | โทร: 02-123-4567</p>
+        </div>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
