@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, jsonify
 import cv2
 import os
 import datetime
@@ -49,28 +49,37 @@ def upload_file():
     # รับชื่อคลาสจากโมเดล
     class_names = model.names
     
-    # คำนวณเปอร์เซ็นต์ของแต่ละคลาส
+    # คำนวณเปอร์เซ็นต์ของแต่ละคลาส และเก็บจำนวนดอก
     total_detected = sum(class_counts.values())
-    detection_info = {}
+    detection_info = {}       # เปอร์เซ็นต์
+    detection_counts = {}     # จำนวนดอก
+
     for class_id, count in class_counts.items():
+        class_name = class_names[class_id]
         percent = (count / total_detected) * 100 if total_detected > 0 else 0
-        detection_info[class_names[class_id]] = round(percent, 2)
-    
+        detection_info[class_name] = round(percent, 2)
+        detection_counts[class_name] = count
+
     # ใส่วันที่และข้อมูลลงในรูป
     y_offset = 30
     current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     cv2.putText(annotated_frame, f"Date: {current_date}", (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
     y_offset += 40
     
-    for class_name, percent in detection_info.items():
-        label = f"{class_name}: {percent}%"
+    for class_name in detection_info:
+        label = f"{class_name}: {detection_info[class_name]}% ({detection_counts[class_name]} ดอก)"
         cv2.putText(annotated_frame, label, (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
         y_offset += 40
     
     # บันทึกภาพผลลัพธ์
     cv2.imwrite(result_path, annotated_frame)
     
-    return {"image_url": f"/results/{file.filename}", "detection_info": detection_info}
+    # ส่งข้อมูลกลับไปให้ frontend
+    return jsonify({
+        "image_url": f"/results/{file.filename}",
+        "detection_info": detection_info,
+        "detection_counts": detection_counts
+    })
 
 @app.route("/results/<filename>")
 def get_result_image(filename):
